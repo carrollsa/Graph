@@ -1,5 +1,6 @@
 package graph;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -12,10 +13,10 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
 class DominatingSetGeneratorTest {
     @Nested
-    @DisplayName("DominatingSetGenerator should create")
+    @DisplayName("DominatingSetGenerator should")
     class ShouldCreate{
         @Nested
-        @DisplayName("a greedy dominating set")
+        @DisplayName("create a greedy dominating set")
         class CreateGreedyDominatingSet {
             @Test
             @DisplayName("for an UndirectedGraph")
@@ -74,7 +75,7 @@ class DominatingSetGeneratorTest {
             }
         }
         @Nested
-        @DisplayName("a connected greedy dominating set")
+        @DisplayName("create a connected greedy dominating set")
         class CreateConnectedGreedyDominatingSet {
             @Test
             @DisplayName("for an UndirectedGraph")
@@ -91,7 +92,6 @@ class DominatingSetGeneratorTest {
                 assertThat(underTest).isTrue();
             }
 
-            //TODO: Make a connected directed graph to test
             @Test
             @DisplayName("for an DirectedGraph")
             void createConnectedGreedyDirected() {
@@ -108,49 +108,28 @@ class DominatingSetGeneratorTest {
             }
         }
 
-    }
-    @Test
-    @DisplayName("Simple design speed test")
-    void speedTest() {
-        UndirectedGraph undirectedGraph = new UndirectedGraph();
-        GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
-        Set<Vertex> dominatingSet = SimplerSlowerDominatingSetCalculations.greedy(undirectedGraph);
-        System.out.println(DominatingSetVerifier.verify(dominatingSet, undirectedGraph));
+        /*
+        Should return an empty set if there are isolated vertices on a directed graph when calculating a connected
+        dominating set
+         */
+        @Test
+        @DisplayName("return an empty set")
+        void shouldReturnAnEmptySet() {
+            // given
+            DirectedGraph directedGraph = new DirectedGraph();
+            GraphLoader.loadGraph(directedGraph, "data/raw_graph_data/facebook_combined.txt");
+            directedGraph.addVertex(5000);
+            Set<Vertex> dominatingSet = DominatingSetCalculations.connectedGreedy(directedGraph);
 
-        DirectedGraph directedGraph = new DirectedGraph();
-        GraphLoader.loadGraph(directedGraph, "data/raw_graph_data/facebook_combined.txt");
-        dominatingSet = OriginalDominatingSetCalculations.greedy(directedGraph);
-        System.out.println(DominatingSetVerifier.verify(dominatingSet, directedGraph));
-    }
+            // when
+            int underTest = dominatingSet.size();
 
-    @Test
-    @DisplayName("Original design speed test")
-    void speedTestOld() {
-        UndirectedGraph undirectedGraph = new UndirectedGraph();
-        GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
-        Set<Vertex> dominatingSet = OriginalDominatingSetCalculations.greedy(undirectedGraph);
-        System.out.println(DominatingSetVerifier.verify(dominatingSet, undirectedGraph));
-
-        DirectedGraph directedGraph = new DirectedGraph();
-        GraphLoader.loadGraph(directedGraph, "data/raw_graph_data/facebook_combined.txt");
-        dominatingSet = OriginalDominatingSetCalculations.greedy(directedGraph);
-        System.out.println(DominatingSetVerifier.verify(dominatingSet, directedGraph));
+            // then
+            assertThat(underTest).isEqualTo(0);
+        }
     }
 
-    @Test
-    @DisplayName("Current implementation speed test")
-    void speedTestNew() {
-        UndirectedGraph undirectedGraph = new UndirectedGraph();
-        GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
-        Set<Vertex> dominatingSet = DominatingSetCalculations.greedy(undirectedGraph);
-        System.out.println(dominatingSet.size());
-
-        DirectedGraph directedGraph = new DirectedGraph();
-        GraphLoader.loadGraph(directedGraph, "data/raw_graph_data/facebook_combined.txt");
-        dominatingSet = DominatingSetCalculations.greedy(directedGraph);
-        System.out.println(dominatingSet.size());
-    }
-
+    @Disabled
     @Nested
     @DisplayName("Speed tests")
     class SpeedTests{
@@ -160,8 +139,6 @@ class DominatingSetGeneratorTest {
             UndirectedGraph undirectedGraph = new UndirectedGraph();
             GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
             Set<Vertex> dominatingSet = DominatingSetCalculations.connectedGreedy(undirectedGraph);
-            System.out.println(DominatingSetVerifier.verify(dominatingSet, undirectedGraph));
-            System.out.println(dominatingSet.size());
         }
         @Test
         @DisplayName("2Newest implementation that can work on unconnected graphs2")
@@ -169,8 +146,6 @@ class DominatingSetGeneratorTest {
             UndirectedGraph undirectedGraph = new UndirectedGraph();
             GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
             Set<Vertex> dominatingSet = DominatingSetCalculations.connectedGreedy(undirectedGraph);
-            System.out.println(DominatingSetVerifier.verify(dominatingSet, undirectedGraph));
-            System.out.println(dominatingSet.size());
         }
         @Test
         @DisplayName("1Original Implementation that checks for graph connectedness1")
@@ -178,8 +153,6 @@ class DominatingSetGeneratorTest {
             UndirectedGraph undirectedGraph = new UndirectedGraph();
             GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
             Set<Vertex> dominatingSet = OriginalDominatingSetCalculations.connectedGreedy(undirectedGraph);
-            System.out.println(DominatingSetVerifier.verify(dominatingSet, undirectedGraph));
-            System.out.println(dominatingSet.size());
         }
 
 
@@ -189,8 +162,6 @@ class DominatingSetGeneratorTest {
             UndirectedGraph undirectedGraph = new UndirectedGraph();
             GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
             Set<Vertex> dominatingSet = OriginalDominatingSetCalculations.connectedGreedy(undirectedGraph);
-            System.out.println(DominatingSetVerifier.verify(dominatingSet, undirectedGraph));
-            System.out.println(dominatingSet.size());
         }
         @Test
         @DisplayName("3Newest implementation that can work on unconnected graphs3")
@@ -198,8 +169,6 @@ class DominatingSetGeneratorTest {
             UndirectedGraph undirectedGraph = new UndirectedGraph();
             GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
             Set<Vertex> dominatingSet = DominatingSetCalculations.connectedGreedy(undirectedGraph);
-            System.out.println(DominatingSetVerifier.verify(dominatingSet, undirectedGraph));
-            System.out.println(dominatingSet.size());
         }
         @Test
         @DisplayName("3Original Implementation that checks for graph connectedness3")
@@ -207,8 +176,6 @@ class DominatingSetGeneratorTest {
             UndirectedGraph undirectedGraph = new UndirectedGraph();
             GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
             Set<Vertex> dominatingSet = OriginalDominatingSetCalculations.connectedGreedy(undirectedGraph);
-            System.out.println(DominatingSetVerifier.verify(dominatingSet, undirectedGraph));
-            System.out.println(dominatingSet.size());
         }
         @Test
         @DisplayName("Connected Directed DS")
@@ -216,10 +183,41 @@ class DominatingSetGeneratorTest {
             DirectedGraph directedGraph = new DirectedGraph();
             GraphLoader.loadGraph(directedGraph, "data/raw_graph_data/facebook_combined.txt");
             Set<Vertex> dominatingSet = DominatingSetCalculations.connectedGreedy(directedGraph);
-            System.out.println(DominatingSetVerifier.verify(dominatingSet, directedGraph));
-            System.out.println(dominatingSet.size());
+        }
+        @Test
+        @DisplayName("Simple design speed test")
+        void speedTest() {
+            UndirectedGraph undirectedGraph = new UndirectedGraph();
+            GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
+            Set<Vertex> dominatingSet = SimplerSlowerDominatingSetCalculations.greedy(undirectedGraph);
+
+            DirectedGraph directedGraph = new DirectedGraph();
+            GraphLoader.loadGraph(directedGraph, "data/raw_graph_data/facebook_combined.txt");
+            dominatingSet = OriginalDominatingSetCalculations.greedy(directedGraph);
+        }
+
+        @Test
+        @DisplayName("Original design speed test")
+        void speedTestOld() {
+            UndirectedGraph undirectedGraph = new UndirectedGraph();
+            GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
+            Set<Vertex> dominatingSet = OriginalDominatingSetCalculations.greedy(undirectedGraph);
+
+            DirectedGraph directedGraph = new DirectedGraph();
+            GraphLoader.loadGraph(directedGraph, "data/raw_graph_data/facebook_combined.txt");
+            dominatingSet = OriginalDominatingSetCalculations.greedy(directedGraph);
+        }
+
+        @Test
+        @DisplayName("Current implementation speed test")
+        void speedTestNew() {
+            UndirectedGraph undirectedGraph = new UndirectedGraph();
+            GraphLoader.loadGraph(undirectedGraph, "data/raw_graph_data/facebook_combined.txt");
+            Set<Vertex> dominatingSet = DominatingSetCalculations.greedy(undirectedGraph);
+
+            DirectedGraph directedGraph = new DirectedGraph();
+            GraphLoader.loadGraph(directedGraph, "data/raw_graph_data/facebook_combined.txt");
+            dominatingSet = DominatingSetCalculations.greedy(directedGraph);
         }
     }
-
-
 }

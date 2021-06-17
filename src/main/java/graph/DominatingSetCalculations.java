@@ -62,8 +62,31 @@ public class DominatingSetCalculations {
         // Additionally, the older class has to actually run a BFS to determine that the graph is, indeed, connected.
         // I'd have thought this class would perform better.
         public Set<Vertex> generateConnectedGreedy() {
+            if(graphIsDirectedWithIsolatedVertices()) {
+                System.out.println("Connected greedy set cannot be generated for a directed graph with isolated " +
+                        "vertices");
+                return new HashSet<Vertex>();
+            }
             generateConnectedGreedyDominatingSet();
             return dominatingSet;
+        }
+
+        private boolean graphIsDirectedWithIsolatedVertices() {
+            if(graph instanceof UndirectedGraph) {
+                return false;
+            }
+            Set<Integer> accessibleVertices = new HashSet<>();
+            populateAccessibleVertices(accessibleVertices);
+            return accessibleVertices.size() != graph.getVertexMap().size();
+        }
+
+        private void populateAccessibleVertices(Set<Integer> accessibleVertices) {
+            for(Set<Edge> edges : graph.getEdgeMap().values()) {
+                for(Edge edge : edges) {
+                    accessibleVertices.add(edge.getA());
+                    accessibleVertices.add(edge.getB());
+                }
+            }
         }
 
         private void generateUnconnectedGreedyDominatingSet() {

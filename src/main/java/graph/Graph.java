@@ -34,7 +34,7 @@ public abstract class Graph <G extends Graph> {
     public abstract void removeEdge(int a, int b);
 
     /**
-     * Method that performs a breadth first search to determine whether the graph is connected, every vertex in the
+     * Performs a breadth first search to determine whether the graph is connected, every vertex in the
      * graph has a path to every other vertex in the graph.
      * @return returns true if the graph is connected and false if not.
      */
@@ -43,28 +43,6 @@ public abstract class Graph <G extends Graph> {
     }
 
     public abstract G clone();
-
-    protected void addVerticesToClone(G clone) {
-        for(int i : getVertexMap().keySet()) {
-            clone.addVertex(i);
-        }
-    }
-
-    protected void addEdgesToClone(G clone) {
-        for(Set<Edge> edgeSet : getEdgeMap().values()) {
-            addEdgesFromSetToClone(edgeSet, clone);
-        }
-    }
-
-    protected void addEdgesFromSetToClone(Set<Edge> edgeSet, G clone) {
-        for(Edge edge : edgeSet) {
-            Map<Integer, Set<Edge>> edgeMap = clone.getEdgeMap();
-            Set<Edge> edges = edgeMap.get(edge.getA());
-            if(edges == null || !edges.contains(edge)) {
-                clone.addEdge(edge.getA(), edge.getB());
-            }
-        }
-    }
 
     public Map<Integer, Vertex> getVertexMap() {
         return vertices;
@@ -245,6 +223,28 @@ public abstract class Graph <G extends Graph> {
             if(!seenVertices.contains(neighbor)) {
                 seenVertices.add(neighbor);
                 queue.offer(neighbor);
+            }
+        }
+    }
+
+    protected void addVerticesToClone(G clone) {
+        for(int i : getVertexMap().keySet()) {
+            clone.addVertex(i);
+        }
+    }
+
+    protected void addEdgesToClone(G clone) {
+        for(Set<Edge> edgeSet : getEdgeMap().values()) {
+            addEdgesFromSetToClone(edgeSet, clone);
+        }
+    }
+
+    protected void addEdgesFromSetToClone(Set<Edge> edgeSet, G clone) {
+        for(Edge edge : edgeSet) {
+            Map<Integer, Set<Edge>> edgeMap = clone.getEdgeMap();
+            Set<Edge> edges = edgeMap.get(edge.getA());
+            if(edges == null || !edges.contains(edge)) {
+                clone.addEdge(edge.getA(), edge.getB());
             }
         }
     }

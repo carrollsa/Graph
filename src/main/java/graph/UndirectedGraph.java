@@ -3,6 +3,22 @@ package graph;
 public class UndirectedGraph extends Graph<UndirectedGraph> {
 
     @Override
+    public void removeEdge(int a, int b) {
+        Edge edge = new Edge(Math.min(a, b), Math.max(a,b));
+        confirmEdgeExists(edge);
+        removeEdgeFromGraph(edge);
+        numEdges--;
+    }
+
+    @Override
+    public UndirectedGraph clone() {
+        UndirectedGraph clone = new UndirectedGraph();
+        addVerticesToClone(clone);
+        addEdgesToClone(clone);
+        return clone;
+    }
+
+    @Override
     protected Edge createEdge(int start, int end) {
         return new Edge(Math.min(start, end), Math.max(start, end));
     }
@@ -13,14 +29,6 @@ public class UndirectedGraph extends Graph<UndirectedGraph> {
         vertices.get(edge.getB()).addNeighbor(vertices.get(edge.getA()));
     }
 
-
-    @Override
-    public void removeEdge(int a, int b) {
-        Edge edge = new Edge(Math.min(a, b), Math.max(a,b));
-        confirmEdgeExists(edge);
-        removeEdgeFromGraph(edge);
-        numEdges--;
-    }
 
     private void confirmEdgeExists(Edge edge) {
         if (!edgeIsInMap(edge)) {
@@ -34,14 +42,4 @@ public class UndirectedGraph extends Graph<UndirectedGraph> {
         aVertex.getNeighbors().remove(bVertex);
         bVertex.getNeighbors().remove(aVertex);
     }
-
-    @Override
-    public UndirectedGraph clone() {
-        UndirectedGraph clone = new UndirectedGraph();
-        addVerticesToClone(clone);
-        addEdgesToClone(clone);
-        return clone;
-    }
-
-
 }

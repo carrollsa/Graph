@@ -10,6 +10,14 @@ public class DirectedGraph extends Graph<DirectedGraph> {
     }
 
     @Override
+    public DirectedGraph clone() {
+        DirectedGraph clone = new DirectedGraph();
+        addVerticesToClone(clone);
+        addEdgesToClone(clone);
+        return clone;
+    }
+
+    @Override
     protected void addNeighborToVertices(Edge edge) {
         Vertex neighbor = vertices.get(edge.getB());
         vertices.get(edge.getA()).addNeighbor(neighbor);
@@ -35,13 +43,5 @@ public class DirectedGraph extends Graph<DirectedGraph> {
     protected void removeNeighborReferenceFromVertices(Edge edge) {
         Vertex neighborToRemove = vertices.get(edge.getB());
         vertices.get(edge.getA()).getNeighbors().remove(neighborToRemove);
-    }
-
-    @Override
-    public DirectedGraph clone() {
-        DirectedGraph clone = new DirectedGraph();
-        addVerticesToClone(clone);
-        addEdgesToClone(clone);
-        return clone;
     }
 }

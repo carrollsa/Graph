@@ -2,7 +2,7 @@ package graph;
 
 import java.util.*;
 
-public abstract class Graph {
+public abstract class Graph <G extends Graph> {
     protected final Map<Integer,Vertex> vertices;
     protected final Map<Integer,Set<Edge>> edges;
     protected int numEdges;
@@ -40,6 +40,30 @@ public abstract class Graph {
      */
     public boolean isConnected() {
         return breadthFirstSearch();
+    }
+
+    public abstract G clone();
+
+    protected void addVerticesToClone(G clone) {
+        for(int i : getVertexMap().keySet()) {
+            clone.addVertex(i);
+        }
+    }
+
+    protected void addEdgesToClone(G clone) {
+        for(Set<Edge> edgeSet : getEdgeMap().values()) {
+            addEdgesFromSetToClone(edgeSet, clone);
+        }
+    }
+
+    protected void addEdgesFromSetToClone(Set<Edge> edgeSet, G clone) {
+        for(Edge edge : edgeSet) {
+            Map<Integer, Set<Edge>> edgeMap = clone.getEdgeMap();
+            Set<Edge> edges = edgeMap.get(edge.getA());
+            if(edges == null || !edges.contains(edge)) {
+                clone.addEdge(edge.getA(), edge.getB());
+            }
+        }
     }
 
     public Map<Integer, Vertex> getVertexMap() {
@@ -215,7 +239,6 @@ public abstract class Graph {
     private boolean allVerticesInGraphHaveBeenSeen(Set<Vertex> visited) {
         return visited.size() == vertices.size();
     }
-    //TODO: Write test
 
     private void addNeighborsToQueue(Vertex vertex, Set<Vertex> seenVertices, Queue<Vertex> queue) {
         for(Vertex neighbor : vertex.getNeighbors()) {

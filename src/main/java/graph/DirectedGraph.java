@@ -1,6 +1,8 @@
 package graph;
 
-public class DirectedGraph extends Graph {
+import java.util.Set;
+
+public class DirectedGraph extends Graph<DirectedGraph> {
 
     @Override
     public Edge createEdge(int start, int end) {
@@ -33,5 +35,13 @@ public class DirectedGraph extends Graph {
     protected void removeNeighborReferenceFromVertices(Edge edge) {
         Vertex neighborToRemove = vertices.get(edge.getB());
         vertices.get(edge.getA()).getNeighbors().remove(neighborToRemove);
+    }
+
+    @Override
+    public DirectedGraph clone() {
+        DirectedGraph clone = new DirectedGraph();
+        addVerticesToClone(clone);
+        addEdgesToClone(clone);
+        return clone;
     }
 }

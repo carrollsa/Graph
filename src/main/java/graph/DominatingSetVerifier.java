@@ -1,5 +1,6 @@
 package graph;
 
+import java.util.Map;
 import java.util.Set;
 
 public class DominatingSetVerifier {
@@ -22,8 +23,8 @@ public class DominatingSetVerifier {
                 dominatingSetGraph.addVertex(vertex.getValue());
             }
         }
-
-        for(Vertex vertex : originalGraph.getVertexMap().values()) {
+        Map<Integer, Vertex> vertexMap= originalGraph.getVertexMap();
+        for(Vertex vertex : vertexMap.values()) {
             if(!dominatingSetGraph.getVertexMap().values().contains(vertex)) {
                 return false;
             }

@@ -1,6 +1,6 @@
 package graph;
 
-public class UndirectedGraph extends Graph {
+public class UndirectedGraph extends Graph<UndirectedGraph> {
 
     @Override
     protected Edge createEdge(int start, int end) {
@@ -34,4 +34,14 @@ public class UndirectedGraph extends Graph {
         aVertex.getNeighbors().remove(bVertex);
         bVertex.getNeighbors().remove(aVertex);
     }
+
+    @Override
+    public UndirectedGraph clone() {
+        UndirectedGraph clone = new UndirectedGraph();
+        addVerticesToClone(clone);
+        addEdgesToClone(clone);
+        return clone;
+    }
+
+
 }

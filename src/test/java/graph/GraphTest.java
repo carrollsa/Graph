@@ -1,12 +1,13 @@
 package graph;
 
-//TODO: TIM QUESTION - Should I rename the test methods to match the class methods they are testing? Clarity?
 import org.assertj.core.api.ThrowableAssert;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -271,7 +272,6 @@ class GraphTest {
             @Nested
             @DisplayName("should be counted")
             class EdgesShouldBeCounted {
-                //TODO: TIM QUESTION - Is this convention for when or should it be formatted like the next test?
                 @Test
                 @DisplayName("when added")
                 void shouldCountEdgeWhenAdded () {
@@ -308,10 +308,10 @@ class GraphTest {
             @DisplayName("should return true if graph is connected")
             void shouldBeTrueIfGraphIsConnected() {
                 // given
-                for(int i = 1; i <= 4; i++) {
+                for (int i = 1; i <= 4; i++) {
                     directedGraph.addVertex(i);
                 }
-                for(int i = 2; i <= 4; i++) {
+                for (int i = 2; i <= 4; i++) {
                     directedGraph.addEdge(1, i);
                 }
 
@@ -321,16 +321,17 @@ class GraphTest {
                 // then
                 assertThat(underTest).isTrue();
             }
+
             @Test
             @DisplayName("should return false if graph is not connected")
             void shouldBeFalseIfGraphIsNotConnected() {
                 // given
-                for(int i = 1; i <= 4; i++) {
+                for (int i = 1; i <= 4; i++) {
                     directedGraph.addVertex(i);
                 }
-                directedGraph.addEdge(1,2);
-                directedGraph.addEdge(1,3);
-                directedGraph.addEdge(4,1);
+                directedGraph.addEdge(1, 2);
+                directedGraph.addEdge(1, 3);
+                directedGraph.addEdge(4, 1);
 
                 // when
                 boolean underTest = directedGraph.isConnected();
@@ -338,6 +339,7 @@ class GraphTest {
                 // then
                 assertThat(underTest).isFalse();
             }
+
             @Test
             @DisplayName("should throw if graph is empty")
             void shouldThrowIfGraphIsEmpty() {
@@ -349,6 +351,60 @@ class GraphTest {
                 assertThatThrownBy(callable).hasMessageContaining("There are no vertices in the graph.");
             }
         }
+        @Nested
+        @DisplayName("should clone")
+        class ShouldClone {
+            @Test
+            @DisplayName("all vertices")
+            void shouldCloneAllVertices() {
+                for (int i = 0; i < 10; i++) {
+                    directedGraph.addVertex(i);
+                }
+                DirectedGraph clone = directedGraph.clone();
+
+                //when
+                for(int i = 0; i < 10; i++) {
+                    Vertex originalVertex = directedGraph.getVertexMap().get(i);
+                    Vertex cloneVertex = clone.getVertexMap().get(i);
+
+                    // then
+                    assertThat(cloneVertex).isEqualTo(originalVertex);
+                }
+            }
+
+            @Test
+            @DisplayName("all edges")
+            void shouldCloneAllEdges() {
+                // given
+                for(int i = 0; i < 10; i++) {
+                    directedGraph.addVertex(i);
+                }
+                for(int j = 0; j < 10; j++) {
+                    for(int k = j; k < 10; k+=2) {
+                        directedGraph.addEdge(j, k);
+                    }
+                }
+                DirectedGraph clone = directedGraph.clone();
+                for(Map.Entry<Integer, Set<Edge>> entry : directedGraph.getEdgeMap().entrySet()) {
+                    int index = entry.getKey();
+                    Set<Edge> originalSet = directedGraph.getEdgeMap().get(index);
+                    Iterator<Edge> originalSetIterator = originalSet.iterator();
+
+                    Set<Edge> cloneSet = clone.getEdgeMap().get(index);
+                    Iterator<Edge> cloneSetIterator = cloneSet.iterator();
+                    while(originalSetIterator.hasNext() && cloneSetIterator.hasNext()) {
+
+                        // when
+                        Edge originalEdge = originalSetIterator.next();
+                        Edge cloneEdge = cloneSetIterator.next();
+
+                        // then
+                        assertThat(originalEdge).isEqualTo(cloneEdge);
+                    }
+                }
+            }
+        }
+
     }
 
     @Nested
@@ -667,6 +723,59 @@ class GraphTest {
 
                 // then
                 assertThatThrownBy(callable).hasMessageContaining("There are no vertices in the graph.");
+            }
+        }
+        @Nested
+        @DisplayName("should clone")
+        class ShouldClone {
+            @Test
+            @DisplayName("all vertices")
+            void shouldCloneAllVertices() {
+                for (int i = 0; i < 10; i++) {
+                    undirectedGraph.addVertex(i);
+                }
+                UndirectedGraph clone = undirectedGraph.clone();
+
+                //when
+                for(int i = 0; i < 10; i++) {
+                    Vertex originalVertex = undirectedGraph.getVertexMap().get(i);
+                    Vertex cloneVertex = clone.getVertexMap().get(i);
+
+                    // then
+                    assertThat(cloneVertex).isEqualTo(originalVertex);
+                }
+            }
+
+            @Test
+            @DisplayName("all edges")
+            void shouldCloneAllEdges() {
+                // given
+                for(int i = 0; i < 10; i++) {
+                    undirectedGraph.addVertex(i);
+                }
+                for(int j = 0; j < 10; j++) {
+                    for(int k = j; k < 10; k+=2) {
+                        undirectedGraph.addEdge(j, k);
+                    }
+                }
+                UndirectedGraph clone = undirectedGraph.clone();
+                for(Map.Entry<Integer, Set<Edge>> entry : undirectedGraph.getEdgeMap().entrySet()) {
+                    int index = entry.getKey();
+                    Set<Edge> originalSet = undirectedGraph.getEdgeMap().get(index);
+                    Iterator<Edge> originalSetIterator = originalSet.iterator();
+
+                    Set<Edge> cloneSet = clone.getEdgeMap().get(index);
+                    Iterator<Edge> cloneSetIterator = cloneSet.iterator();
+                    while(originalSetIterator.hasNext() && cloneSetIterator.hasNext()) {
+
+                        // when
+                        Edge originalEdge = originalSetIterator.next();
+                        Edge cloneEdge = cloneSetIterator.next();
+
+                        // then
+                        assertThat(originalEdge).isEqualTo(cloneEdge);
+                    }
+                }
             }
         }
     }

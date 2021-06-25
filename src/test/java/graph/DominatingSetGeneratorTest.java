@@ -88,7 +88,7 @@ class DominatingSetGeneratorTest {
                 Optional<Set<Vertex>> dominatingSet = DominatingSetCalculations.connectedGreedy(undirectedGraph);
 
                 // when
-                boolean underTest = DominatingSetVerifier.verify(dominatingSet.get(), undirectedGraph);
+                boolean underTest = DominatingSetCalculations.verify(dominatingSet.get(), undirectedGraph);
 
                 // then
                 assertThat(underTest).isTrue();
@@ -103,7 +103,7 @@ class DominatingSetGeneratorTest {
                 Optional<Set<Vertex>> dominatingSet = DominatingSetCalculations.connectedGreedy(directedGraph);
 
                 // when
-                boolean underTest = DominatingSetVerifier.verify(dominatingSet.get(), directedGraph);
+                boolean underTest = DominatingSetCalculations.verify(dominatingSet.get(), directedGraph);
 
                 // then
                 assertThat(underTest).isTrue();

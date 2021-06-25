@@ -6,8 +6,11 @@
  */
 package util;
 
+import graph.Edge;
+
 import java.io.File;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.Set;
 
@@ -28,9 +31,13 @@ public class GraphLoader {
         }
         // Iterate over the lines in the file, adding new
         // vertices as they are found and connecting them with edges.
+
         while (sc.hasNextInt()) {
             int v1 = sc.nextInt();
             int v2 = sc.nextInt();
+            if(v1 == v2) {
+                continue;
+            }
             if (!seen.contains(v1)) {
                 g.addVertex(v1);
                 seen.add(v1);
@@ -39,7 +46,12 @@ public class GraphLoader {
                 g.addVertex(v2);
                 seen.add(v2);
             }
-            g.addEdge(v1, v2);
+            Map<Integer,Set<Edge>> edgeMap = g.getEdgeMap();
+            Edge edgeToAdd = new Edge(v1, v2);
+            Set<Edge> edges = edgeMap.get(v1);
+            if(edges == null || !edges.contains(edgeToAdd)) {
+                g.addEdge(v1, v2);
+            }
         }
 
         sc.close();

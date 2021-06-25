@@ -6,12 +6,13 @@ import java.util.Optional;
 import java.util.Set;
 
 /**
- * Calculation class containing two static methods for generating dominating sets.
+ * Calculation class containing three static methods. Two create dominating sets from graphs, and the third verifies
+ * a proposed dominating set of vertices against a graph.
  */
 
 public class DominatingSetCalculations {
     static DominatingSetGenerator generator;
-
+    static DominatingSetVerifier verifier;
 
     public static Set<Vertex> greedy(Graph graph) {
         generator = new DominatingSetGenerator(graph);
@@ -21,6 +22,11 @@ public class DominatingSetCalculations {
     public static Optional<Set<Vertex>> connectedGreedy(Graph graph) {
         generator = new DominatingSetGenerator(graph);
         return  generator.generateConnectedGreedy();
+    }
+
+    public static boolean verify(Set<Vertex> dominatingSet, Graph graph) {
+        verifier = new DominatingSetVerifier(dominatingSet, graph);
+        return verifier.verifySet();
     }
 
     private static class DominatingSetGenerator {
@@ -40,14 +46,7 @@ public class DominatingSetCalculations {
             vertexHasCoveredNeighbor = false;
         }
 
-        public Set<Vertex> generateGreedy() {
-            generateUnconnectedGreedyDominatingSet();
-            return dominatingSet;
-        }
-
         /**
-         * Generates a set of integers representing connected vertices that make up a dominating set for the
-         * specified graph using a greedy algorithm. Currently only works on connected graphs.
          * @return returns an optional containing the dominating set if a set is successfully found, or an empty
          * optional if a connected set could not be generated due to the graph being unconnected.
          */
@@ -58,6 +57,15 @@ public class DominatingSetCalculations {
             }
             generateConnectedGreedyDominatingSet();
             return Optional.of(dominatingSet);
+        }
+
+        /**
+         * @return returns a set of vertices approximating a minimum connected dominating set for the input graph.
+         */
+
+        public Set<Vertex> generateGreedy() {
+            generateUnconnectedGreedyDominatingSet();
+            return dominatingSet;
         }
 
         private boolean graphIsDirectedWithIsolatedVertices() {
@@ -256,6 +264,58 @@ public class DominatingSetCalculations {
             vertexHasCoveredNeighbor = false;
         }
     }
+
+    private static class DominatingSetVerifier {
+        Set<Vertex> dominatingSet;
+        Graph originalGraph;
+        UndirectedGraph dominatingSetGraph;
+
+        public DominatingSetVerifier(Set<Vertex> dominatingSet, Graph originalGraph) {
+            this.dominatingSet = dominatingSet;
+            this.originalGraph = originalGraph;
+            dominatingSetGraph = new UndirectedGraph();
+        }
+
+
+        public boolean verifySet() {
+            buildDominatingSetGraph();
+            return compareGraphs();
+        }
+
+        private void buildDominatingSetGraph() {
+            for(Vertex vertex : dominatingSet) {
+                Map<Integer,Vertex> originalGraphVertexMap = originalGraph.getVertexMap();
+                Vertex originalGraphVertex = originalGraphVertexMap.get(vertex.getValue());
+                addNeighborsToDominatingSetGraph(originalGraphVertex.getNeighbors());
+                addSelfToDominatingSetGraph(vertex);
+            }
+        }
+
+        private void addNeighborsToDominatingSetGraph(Set<Vertex> neighbors) {
+            for(Vertex neighbor : neighbors) {
+                if(!dominatingSetGraph.getVertexMap().containsValue(neighbor)) {
+                    dominatingSetGraph.addVertex(neighbor.getValue());
+                }
+            }
+        }
+
+        private void addSelfToDominatingSetGraph(Vertex vertex) {
+            if(!dominatingSetGraph.getVertexMap().containsValue(vertex)) {
+                dominatingSetGraph.addVertex(vertex.getValue());
+            }
+        }
+
+        private boolean compareGraphs() {
+            Map<Integer, Vertex> originalVertexMap = originalGraph.getVertexMap();
+            for(Vertex vertex : originalVertexMap.values()) {
+                if(!dominatingSetGraph.getVertexMap().containsValue(vertex)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
 }
 
 

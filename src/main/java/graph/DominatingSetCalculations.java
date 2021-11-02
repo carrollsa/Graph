@@ -276,6 +276,10 @@ public class DominatingSetCalculations {
             dominatingSetGraph = new UndirectedGraph();
         }
 
+        /**
+         * @return returns a boolean signifying whether the proposed dominating set constitutes an actual dominating
+         * set of the original graph.
+         */
 
         public boolean verifySet() {
             buildDominatingSetGraph();

@@ -77,7 +77,6 @@ undirectedGraph.addEdge(2, 0); // Ordering of edges does not matter for undirect
 Now we have the following graphs: 
 
 <img src="https://github.com/carrollsa/carrollsa_public/blob/main/SimpleDirectedGraph.jpg">
-
 <img src="https://github.com/carrollsa/carrollsa_public/blob/main/SimpleUndirectedGraph.jpg">
 
 <a name="find-unconnected" />
@@ -94,7 +93,6 @@ Set<Vertex> dominatingSetB = DominatingSetCalculations.greedy(undirectedGraph);
 The output for both calculations would be `[0]`. The following illustrates these sets:
  
 <img src="https://github.com/carrollsa/carrollsa_public/blob/main/DirectedDominatingSet.jpg">
-
 <img src="https://github.com/carrollsa/carrollsa_public/blob/main/UndirectedDominatingSet.jpg">
 
 <a name="find-connected" />

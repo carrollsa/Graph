@@ -26,12 +26,6 @@ This library was designed with the intent of storing social media data from both
 ## Challenges
 
 
----
-
-<a name="installation" />
-
-## Installation
-Coming soon
 
 ---
 
@@ -133,13 +127,13 @@ For the following graph, the output would be `[1, 2, 6]`, as the set must includ
 
 #### Creating a directed graph
 
-<a name="directed-graph" href="directed-graph">#</a> <i>DirectedGraph</i><b></b>()
+<a name="directed-graph" href="#directed-graph">#</a> <i>DirectedGraph</i><b></b>()
 
 Constructs a DirectedGraph instance.
 
 #### Creating an undirected graph
 
-<a name="undirected-graph" href="undirected-graph">#</a> <i>UndirectedGraph</i><b></b>()
+<a name="undirected-graph" href="#undirected-graph">#</a> <i>UndirectedGraph</i><b></b>()
 
 Constructs an UndirectedGraph instance.
 
@@ -147,37 +141,37 @@ Constructs an UndirectedGraph instance.
 
 #### Adding a vertex
 
-<a name="add-vertex">#</a> <i>graph</i>.<b>addVertex</b>(<i>vertex</i>)
+<a name="add-vertex" href="#add-vertex">#</a> <i>graph</i>.<b>addVertex</b>(<i>vertex</i>)
 
 Adds a vertex of value <i>vertex</i>. Throws an exception if a vertex of value <i>vertex</i> already exists.
 
 #### Removing a vertex
 
-<a name="remove-vertex">#</a> <i>graph</i>.<b>removeVertex</b>(<i>vertex</i>)
+<a name="remove-vertex" href="#add-vertex">#</a> <i>graph</i>.<b>removeVertex</b>(<i>vertex</i>)
 
 Removes the vertex with value <i>vertex</i>. Throws an exception if a vertex of value <i>vertex</i> does not exist.
 
 #### Adding an edge
 
-<a name="add-edge" href="add-edge">#</a> <i>graph</i>.<b>addEdge</b>(<i>u, v</i>)
+<a name="add-edge" href="#add-edge">#</a> <i>graph</i>.<b>addEdge</b>(<i>u, v</i>)
 
 Adds an edge between vertices <i>u</i> and <i>v</i>. The direction of the edge will only be stored if the calling Graph is a <i>DirectedGraph</i> instance. Throws an exception if either vertex <i>u</i> or vertex <i>v</i> already exists.
 
 #### Removing an edge
 
-<a name="remove-edge" href="remove-edge">#</a> <i>graph</i>.<b>removeEdge</b>(<i>u, v</i>)
+<a name="remove-edge" href="#remove-edge">#</a> <i>graph</i>.<b>removeEdge</b>(<i>u, v</i>)
 
 Removes the edge between vertices <i>u</i> and <i>v</i>. The ordering of <i>u</i> and <i>v</i> are only considered if the calling Graph is a <i>DirectedGraph</i> instance. Throws an exception if the edge does not exist.
 
-<a name="graph-querying" />
+<a name="graph-querying" href="#graph-querying"/>
 
 #### Querying the graph
 
-<a name="vertex-map" href="vertex-map">#</a> <i>graph</i>.<b>getVertexMap</b>()
+<a name="vertex-map" href="#vertex-map">#</a> <i>graph</i>.<b>getVertexMap</b>()
 
 Returns a <i>Map&lt;Integer, Vertex&gt;</i> object representing all vertices within the graph mapped from their corresponding Integer values.
 
-<a name="edge-map" href="edge-map">#</a> <i>graph</i>.<b>getEdgeMap</b>()
+<a name="edge-map" href="#edge-map">#</a> <i>graph</i>.<b>getEdgeMap</b>()
 
 Returns a <i>Map&lt;Integer, Set&lt;Edge&gt;&gt;</i> object representing all edges within the graph.
 
@@ -185,13 +179,13 @@ In a <i>DirectedGraph</i> instance, each <i>Edge</i> reference is stored in the 
 
 In an <i>UndirectedGraph</i> instance, each <i>Edge</i> has a reference stored at value of each of its corresponding vertices.
 
-<a name="edge-map" href="edge-map">#</a> <i>graph</i>.<b>getNumEdges</b>()
+<a name="edge-map" href="#edge-map">#</a> <i>graph</i>.<b>getNumEdges</b>()
 
 Computes the number of edges within the <i>graph</i>.
 
 #### Cloning a graph
 
-<a name="clone" href="clone">#</a> <i>graph</i>.<b>clone</b>()
+<a name="clone" href="#clone">#</a> <i>graph</i>.<b>clone</b>()
 
 Returns a new Graph instance of the caller's type with the same vertices and edges as the calling <i>graph</i>. This new graph be altered without altering the original graph.
 
@@ -200,14 +194,14 @@ Returns a new Graph instance of the caller's type with the same vertices and edg
 
 The static DominatingSetCalculations class comes with the following three methods:
 
-<a name="greedy" href="greedy">#</a> <b>greedy</b>(<i>graph</i>)
+<a name="greedy" href="#greedy">#</a> <b>greedy</b>(<i>graph</i>)
 
 Returns a Set&lt;Vertex&gt; object representing an approximate minimum dominating set for the input <i>graph</i> using a greedy algorithm.
 
-<a name="connected-greedy" href="connected-greedy">#</a> <b>connectedGreedy</b>(<i>graph</i>)
+<a name="connected-greedy" href="#connected-greedy">#</a> <b>connectedGreedy</b>(<i>graph</i>)
 
 Returns an Optional&lt;Set&lt;Vertex&gt;&gt; object representing an approximate minimum connected dominating set for the input <i>graph</i> using a greedy algorithm. If no set can be found due to the graph being [disconnected](https://mathworld.wolfram.com/DisconnectedGraph.html#:~:text=A%20graph%20is%20said%20to,disconnected%20simple%20unlabeled%20graphs%20on), an empty Optional object is returned.
 
-<a name="verify" href="verify">#</a> <b>verify</b>(<i>dominatingSet</i>, <i>graph</i>)
+<a name="verify" href="#verify">#</a> <b>verify</b>(<i>dominatingSet</i>, <i>graph</i>)
 
 Returns true if the input <i>Set&lt;Vertex&gt;</i> object represents a [Dominating Set](https://en.wikipedia.org/wiki/Dominating_set) for input <i>graph</i> and false if not.

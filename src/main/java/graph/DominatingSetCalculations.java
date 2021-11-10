@@ -14,16 +14,31 @@ public class DominatingSetCalculations {
     static DominatingSetGenerator generator;
     static DominatingSetVerifier verifier;
 
+    /**
+     * @param graph The graph for which an approximate minimum dominating set will be generated.
+     * @return The set of vertices comprising an approximate minimum dominating set for the input graph.
+     */
     public static Set<Vertex> greedy(Graph graph) {
         generator = new DominatingSetGenerator(graph);
         return  generator.generateGreedy();
     }
 
+    /**
+     * @param graph The graph for which an approximate minimum connected dominating set will be generated.
+     * @return The set of vertices comprising an approximate minimum connected dominating set for the input graph.
+     * Returns an empty optional if a connected dominating set cannot be generated due to the graph being disconnected.
+     */
     public static Optional<Set<Vertex>> connectedGreedy(Graph graph) {
         generator = new DominatingSetGenerator(graph);
         return  generator.generateConnectedGreedy();
     }
 
+    /**
+     * @param dominatingSet The set of vertices proposed as a possible dominating set of the given graph.
+     * @param graph The graph against which the dominatingSet will be compared.
+     * @return A boolean representing whether the proposed set of vertices constitutes a dominating set for the input
+     * graph.
+     */
     public static boolean verify(Set<Vertex> dominatingSet, Graph graph) {
         verifier = new DominatingSetVerifier(dominatingSet, graph);
         return verifier.verifySet();

@@ -5,7 +5,7 @@
 ## Overview
 A [graph data structure](https://en.wikipedia.org/wiki/Graph_(abstract_data_type)) with approximation algorithms for finding a minimum [dominating set](https://en.wikipedia.org/wiki/Dominating_set) and minimum connected dominating set. Apart from being a study in class design and architecture, it was created to demonstrate Clean Code principles and experiment with thorough testing during development.
 
-This library consists of two graph data structures, DirectedGraph and UndirectedGraph, descending from a parent abstract Graph class. Both types of graphs can be taken as parameters to the methods of a static calculations class, DominatingSetCalculations, which implements approximation algorithms to find an approximate minimum dominating set and minimum connected dominating set for the input Graph. The output sets are approximations due to the minimum dominating set problem being NP-complete.
+This library consists of two graph data structures, DirectedGraph and UndirectedGraph, descending from a parent abstract Graph class. Both types of graphs can be taken as parameters to the static methods of a calculations class, DominatingSetCalculations, which implements approximation algorithms to find an approximate minimum dominating set and minimum connected dominating set for the input Graph. The output sets are approximations due to the minimum dominating set problem being NP-complete.
 
 This library was designed with the intent of storing social media data from both Facebook and Twitter. This use case of approximating minimum dominating sets is to model the approximate smallest group of users among a set of connected users who would need to share information in order to reach all users in the data set.
 
@@ -25,7 +25,7 @@ This library was designed with the intent of storing social media data from both
 
 ## Challenges
 
-* I wanted to create a static DominatingSetCalculations class whose methods could take any Graph as an input, but I wanted the Graph objects themselves to be distinguished as instances of DirectedGraph or UndirectedGraph for clarity in future use of this data structure. This caused me to explore generics and discover the hard way what kinds of difficulties that can arise from their use. I ultimately kept the use of generics within my abstract Graph class, but I had to dial things back a number of times in order to avoid generics hell.
+* I wanted to create a DominatingSetCalculations class whose static methods could take any Graph as an input, but I wanted the Graph objects themselves to be distinguished as instances of DirectedGraph or UndirectedGraph for clarity in future use of this data structure. This caused me to explore generics and discover the hard way what kinds of difficulties that can arise from their use. I ultimately kept the use of generics within my abstract Graph class, but I had to dial things back a number of times in order to avoid generics hell.
 * From a design standpoint, the biggest consideration I had to make was figuring out where to store Vertex adjacency and Edge directionality with as little reference duplication as possible. I ultimately decided to store two references for each Edge in a DirectedGraph, one from the value of the origin Vertex and one from the value of the destination Vertex, so that, given any Vertex, one could find both the in-Edges and the out-Edges. This was necessary for my minimum dominating set algorithm. For an UndirectedGraph, I stored only one reference to each Edge, always indexed from the lower Vertex value between the origin and destination vertices. That last point was a fairly simple concept, but it solved a host of problems for me in the way of preventing writing duplicate code for my calculations class, as the edges were always stored in a uniform fashion.
 
 ---
@@ -78,7 +78,7 @@ Now we have the following graphs:
 
 ### Finding an unconnected dominating set of a graph
 
-Calculate an approximate minimum dominating set of either type of graph with the `greedy` method of the static class `DominatingSetCalculations`
+Calculate an approximate minimum dominating set of either type of graph with the static `greedy` method of the `DominatingSetCalculations` class.
 
 ```java
 Set<Vertex> dominatingSetA = DominatingSetCalculations.greedy(directedGraph);
@@ -93,7 +93,7 @@ The output for both calculations would be `[0]`. The following illustrates these
 <a name="find-connected" />
 
 ### Finding a connected dominating set of a graph
-Use the `connectedGreedy()` method of the static class `DominatingSetCalculations`.
+Use the static `connectedGreedy()` method of the `DominatingSetCalculations` class.
 
 ```java
 Set<Vertex> dominatingSet = DominatingSetCalculations.connectedGreedy(graph)
@@ -193,7 +193,7 @@ Returns a new Graph instance of the caller's type with the same vertices and edg
 
 ### DominatingSetCalculations
 
-The static DominatingSetCalculations class comes with the following three methods:
+The DominatingSetCalculations class comes with the following three static methods:
 
 <a name="greedy" href="#greedy">#</a> <b>greedy</b>(<i>graph</i>)
 

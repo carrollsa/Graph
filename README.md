@@ -13,7 +13,6 @@ This library was designed with the intent of storing social media data from both
 
 ## Table of Contents
 * [Challenges](https://github.com/carrollsa/Graph/blob/master/README.md#challenges)
-* [Installation](https://github.com/carrollsa/Graph/blob/master/README.md#installation)
 * [Examples](https://github.com/carrollsa/Graph/blob/master/README.md#examples)
 	- [Unconnected dominating set](https://github.com/carrollsa/Graph/blob/master/README.md#find-ds-directed)
 	- [Connected dominating set](https://github.com/carrollsa/Graph/blob/master/README.md#find-connected)
